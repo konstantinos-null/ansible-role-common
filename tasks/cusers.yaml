@@ -27,7 +27,7 @@
 
 - name: Add authorized keys for user
   copy:
-    src: roles/common/files/ssh_authorized_keys
+    src: ssh_authorized_keys
     dest: /home/{{ user_name }}/.ssh/authorized_keys
     owner: "{{ user_name }}"
     group: "{{ user_name }}"
