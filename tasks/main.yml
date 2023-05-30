@@ -1,8 +1,8 @@
 ---
 # tasks file for common
 
-import_tasks: cusers.yaml
-tags: common_users
+- import_tasks: cusers.yaml
+  tags: common_users
 
-import_tasks: cfirewall.yaml
-tags: common_firewall
+- import_tasks: cfirewall.yaml
+  tags: common_firewall
