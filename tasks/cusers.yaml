@@ -1,13 +1,13 @@
 ---
 - name: Create group
   group:
-    name: {{ user_name }}
+    name: "{{ user_name }}"
     gid: '1001'
     state: present
 
 - name: Add user
   user:
-    name: {{ user_name }}
+    name: "{{ user_name }}"
     state: present
     uid: '1001'
     groups:
@@ -20,8 +20,8 @@
 - name: Create ssh folder
   file:
     path: /home/{{ user_name }}/.ssh
-    owner: {{ user_name }}
-    group: {{ user_name }}
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
     mode: "0700"
     state: directory
 
@@ -29,8 +29,8 @@
   copy:
     src: roles/common/files/ssh_authorized_keys
     dest: /home/{{ user_name }}/.ssh/authorized_keys
-    owner: {{ user_name }}
-    group: {{ user_name }}
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
     mode: "0700"
 
 - name: Check for user sudo access
