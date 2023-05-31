@@ -1,24 +1,23 @@
 ---
 - name: Create group
-  group:
+  ansible.builtin.group:
     name: "{{ user_name }}"
     gid: '1001'
     state: present
 
 - name: Add user
-  user:
+  ansible.builtin.user:
     name: "{{ user_name }}"
     state: present
     uid: '1001'
     groups:
       - ansible
       - sudo
-      - docker
       - kvm
-      - lxd
+  ignore_errors: true
 
 - name: Create ssh folder
-  file:
+  ansible.builtin.file:
     path: /home/{{ user_name }}/.ssh
     owner: "{{ user_name }}"
     group: "{{ user_name }}"
@@ -26,7 +25,7 @@
     state: directory
 
 - name: Add authorized keys for user
-  copy:
+  ansible.builtin.copy:
     src: ssh_authorized_keys
     dest: /home/{{ user_name }}/.ssh/authorized_keys
     owner: "{{ user_name }}"
@@ -34,11 +33,11 @@
     mode: "0700"
 
 - name: Check for user sudo access
-  shell: grep -w -c "{{ user_name }}    ALL=(ALL:ALL) ALL" /etc/sudoers || true
+  ansible.builtin.shell: grep -w -c "{{ user_name }}    ALL=(ALL:ALL) ALL" /etc/sudoers || true
   register: check_root
 
 - name: Give passwd to user
-  lineinfile:
+  ansible.builtin.lineinfile:
     line: "{{ user_name }}    ALL=(ALL:ALL) ALL"
     dest: /etc/sudoers
     validate: visudo -cf %s
